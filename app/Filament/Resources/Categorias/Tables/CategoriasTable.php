@@ -77,6 +77,7 @@ class CategoriasTable
                         ->action(fn($records) => $records->each->update(['status' => Categoria::STATUS_ELIMINADO])),
                 ]),
             ])
-            ->defaultSort('orden');
+            ->defaultSort('orden')
+            ->modifyQueryUsing(fn ($query) => $query->activos());
     }
 }
