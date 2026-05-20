@@ -50,9 +50,11 @@ class Imagen extends Model
     protected static function booted(): void
     {
         static::creating(function ($imagen) {
-            if (empty($imagen->entidad)) {
-                $imagen->entidad = 'catalogos';
-            }
+            if (!empty($imagen->entidad)) return;
+
+            $imagen->entidad = str_contains($imagen->url ?? '', 'catalogos/categorias')
+                ? 'catalogo_categorias'
+                : 'catalogos';
         });
     }
 }

@@ -44,7 +44,7 @@ class CatalogoCategoria extends Model
     public function imagenes()
     {
         return $this->hasMany(Imagen::class, 'entidad_id')
-                    ->where('entidad', 'catalogo_categorias');
+            ->where('entidad', 'catalogo_categorias');
     }
 
     public function creadoPor()
@@ -72,4 +72,5 @@ class CatalogoCategoria extends Model
     {
         return $query->where('status', self::STATUS_ELIMINADO);
     }
+
 }
