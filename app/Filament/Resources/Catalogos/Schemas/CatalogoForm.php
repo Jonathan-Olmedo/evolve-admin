@@ -2,8 +2,12 @@
 
 namespace App\Filament\Resources\Catalogos\Schemas;
 
-use Filament\Forms\Components\TextInput;
+use App\Models\Catalogo;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class CatalogoForm
@@ -12,28 +16,61 @@ class CatalogoForm
     {
         return $schema
             ->components([
-                TextInput::make('nombre')
-                    ->required(),
-                Textarea::make('descripcion')
-                    ->columnSpanFull(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email(),
-                TextInput::make('pagina_web'),
-                TextInput::make('logo_url')
-                    ->url(),
-                TextInput::make('orden')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('status')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                TextInput::make('created_by')
-                    ->numeric(),
-                TextInput::make('updated_by')
-                    ->numeric(),
+                Section::make('Información General')
+                    ->schema([
+                        TextInput::make('nombre')
+                            ->label('Nombre')
+                            ->required()
+                            ->maxLength(150)
+                            ->columnSpanFull(),
+
+                        Textarea::make('descripcion')
+                            ->label('Descripción')
+                            ->rows(3)
+                            ->columnSpanFull(),
+
+                        TextInput::make('email')
+                            ->label('Correo electrónico')
+                            ->email()
+                            ->maxLength(100),
+
+                        TextInput::make('pagina_web')
+                            ->label('Página web')
+                            ->url()
+                            ->maxLength(255),
+                    ])->columns(2),
+
+                Section::make('Configuración')
+                    ->schema([
+                        FileUpload::make('logo_url')
+                            ->label('Logo')
+                            ->image()
+                            ->directory('logos')
+                            ->columnSpanFull(),
+
+                        TextInput::make('orden')
+                            ->label('Orden')
+                            ->numeric()
+                            ->default(0),
+
+                        Select::make('status')
+                            ->label('Estado')
+                            ->options([
+                                Catalogo::STATUS_BORRADOR => 'Borrador',
+                                Catalogo::STATUS_ACTIVO   => 'Activo',
+                            ])
+                            ->default(Catalogo::STATUS_BORRADOR)
+                            ->required(),
+                    ])->columns(2),
+
+                Section::make('Categorías')
+                    ->schema([
+                        Select::make('categorias')
+                            ->label('Categorías asignadas')
+                            ->relationship('categorias', 'nombre')
+                            ->multiple()
+                            ->preload(),
+                    ]),
             ]);
     }
 }
