@@ -46,4 +46,13 @@ class Imagen extends Model
     {
         return $query->orderBy('orden');
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function ($imagen) {
+            if (empty($imagen->entidad)) {
+                $imagen->entidad = 'catalogos';
+            }
+        });
+    }
 }

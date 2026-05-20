@@ -16,6 +16,8 @@ use Filament\Tables\Table;
 
 class CatalogoCategoriaResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $model = CatalogoCategoria::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

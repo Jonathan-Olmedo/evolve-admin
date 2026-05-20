@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Repeater;
 
 class CatalogoForm
 {
@@ -70,6 +71,37 @@ class CatalogoForm
                             ->relationship('categorias', 'nombre')
                             ->multiple()
                             ->preload(),
+                    ]),
+
+                Section::make('Galería de imágenes')
+                    ->schema([
+                        Repeater::make('imagenes')
+                            ->label('')
+                            ->relationship('imagenes')
+                            ->schema([
+                                FileUpload::make('url')
+                                    ->label('Imagen')
+                                    ->image()
+                                    ->directory('catalogos/galeria')
+                                    ->required(),
+
+                                TextInput::make('orden')
+                                    ->label('Orden')
+                                    ->numeric()
+                                    ->default(0),
+
+                                Select::make('status')
+                                    ->label('Estado')
+                                    ->options([
+                                        \App\Models\Imagen::STATUS_BORRADOR => 'Borrador',
+                                        \App\Models\Imagen::STATUS_ACTIVO   => 'Activo',
+                                    ])
+                                    ->default(\App\Models\Imagen::STATUS_BORRADOR)
+                                    ->required(),
+                            ])
+                            ->columns(3)
+                            ->addActionLabel('Agregar imagen')
+                            ->defaultItems(0),
                     ]),
             ]);
     }

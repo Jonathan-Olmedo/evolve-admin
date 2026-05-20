@@ -39,7 +39,7 @@ class Catalogo extends Model
             'catalogo_id',
             'categoria_id'
         )->withPivot(['id', 'descripcion', 'orden', 'status'])
-         ->withTimestamps();
+            ->withTimestamps();
     }
 
     public function catalogoCategorias()
@@ -50,7 +50,7 @@ class Catalogo extends Model
     public function imagenes()
     {
         return $this->hasMany(Imagen::class, 'entidad_id')
-                    ->where('entidad', 'catalogos');
+            ->where('entidad', 'catalogos');
     }
 
     public function creadoPor()
@@ -88,7 +88,8 @@ class Catalogo extends Model
     {
         return $query->with([
             'categorias' => fn($q) => $q->where(
-                'catalogo_categorias.status', self::STATUS_ACTIVO
+                'catalogo_categorias.status',
+                self::STATUS_ACTIVO
             )
         ]);
     }
