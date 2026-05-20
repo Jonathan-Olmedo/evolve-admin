@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Filament\Resources\Catalogos\Pages;
+
+use App\Filament\Resources\Catalogos\CatalogoResource;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ListRecords;
+
+class ListCatalogos extends ListRecords
+{
+    protected static string $resource = CatalogoResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make(),
+        ];
+    }
+}
