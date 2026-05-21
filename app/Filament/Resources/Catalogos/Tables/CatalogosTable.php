@@ -94,6 +94,6 @@ class CatalogosTable
                 ]),
             ])
             ->defaultSort('orden')
-            ->modifyQueryUsing(fn ($query) => $query->activos()->borradores());;
+            ->modifyQueryUsing(fn ($query) => $query->noEliminados());
     }
 }

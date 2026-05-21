@@ -93,4 +93,8 @@ class Catalogo extends Model
             )
         ]);
     }
+    public function scopeNoEliminados(Builder $query): Builder
+{
+    return $query->where('status', '!=', self::STATUS_ELIMINADO);
+}
 }
